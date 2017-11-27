@@ -3,8 +3,7 @@ from pymysql.err import InternalError
 
 class Category:
 	
-	def __init__(self, id, name, idstr):
-		self.id = name
+	def __init__(self, name, idstr):
 		self.name = name
 		self.idstr = idstr
 
