@@ -12,6 +12,7 @@ class Playlist:
         self.trackCount = trackCount
         self.followers = followers
         self.tracks = None
+        self.bestGenre = None
 
 
     def fromDBRow(row):
@@ -20,7 +21,7 @@ class Playlist:
         return tmpPlaylist
 
     def loadAll(db):
-        db.cur.execute("SELECT * FROM playlists LIMIT 20")
+        db.cur.execute("SELECT * FROM playlists")
         rows = db.cur.fetchall()
         playlists = []
         for row in rows:
