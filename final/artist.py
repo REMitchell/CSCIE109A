@@ -14,6 +14,7 @@ class Artist:
     def fromDB(row):
         artist = Artist(row['spotifyId'], row['name'], row['genres'].split(','), row['followers'], row['popularity'])
         artist.id = row['id']
+        artist.views = row['views']
         return artist
 
     def getAllWithoutViews(db):
@@ -35,6 +36,7 @@ class Artist:
         row = row[0]
         newArtist = Artist(row['spotifyId'], row['name'], row['genres'].split(','), row['followers'], row['popularity'])
         newArtist.id = row['id']
+        newArtist.view = row['views']
         return newArtist
 
     def save(self, db):
