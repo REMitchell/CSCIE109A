@@ -18,7 +18,7 @@ class Artist:
         return artist
 
     def getAllWithoutViews(db):
-        db.cur.execute("SELECT * FROM artists WHERE views=0")
+        db.cur.execute("SELECT * FROM artists WHERE views IS NULL")
         rows = db.cur.fetchall()
         return [Artist.fromDB(row) for row in rows]
 
@@ -36,7 +36,7 @@ class Artist:
         row = row[0]
         newArtist = Artist(row['spotifyId'], row['name'], row['genres'].split(','), row['followers'], row['popularity'])
         newArtist.id = row['id']
-        newArtist.view = row['views']
+        newArtist.views = row['views']
         return newArtist
 
     def save(self, db):

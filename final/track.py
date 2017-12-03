@@ -42,14 +42,15 @@ class Track:
 
     def save(self, db):
         try:
+            print("SELECT * FROM tracks WHERE spotifyId = {}".format(str(self.spotifyId)))
             db.cur.execute("SELECT * FROM tracks WHERE spotifyId = %s", (self.spotifyId))
             if db.cur.rowcount == 0:
                 db.cur.execute("INSERT INTO tracks (spotifyId, album, artist1, artist2, artist3, name, duration_ms, explicit, popularity) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (self.spotifyId, self.album, self.artist1, self.artist2, self.artist3, self.name, self.duration, self.explicit, self.popularity))
                 db.conn.commit()
                 self.id = db.cur.lastrowid
             else:
-                print("ID IS NOW: "+str(self.id))
                 self.id = db.cur.fetchall()[0]["id"]
+                print("ID IS NOW: "+str(self.id))
 
         except InternalError as e:
             print("Error inserting track "+self.name)
