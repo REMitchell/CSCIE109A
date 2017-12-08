@@ -10,7 +10,7 @@ import time
 # 5ab4418cd35443639f96eba74b01c445
 # curl -X "POST" -H "Authorization: Basic 5ab4418cd35443639f96eba74b01c445" -d grant_type=client_credentials https://accounts.spotify.com/api/token
 db = Database()
-token = "BQAoNb3BXDx5XMjZAjtCfnKof4bntrI0ZHotzfTjtm3m0bi1L5zjYYNdA_DfUx6J4uNseePwJMOajaNxmqB9LjDrVY4As5ZfTbF8W75XzaUUyt8WeRLBHj4iwWpMWgHGw90gxkiX_LNIOtI"
+token = "BQCLM-UsCh-VZ7MCegXu6mwsrYKDT0wM9wQtSa0Zva8BTm8IM3up8QBoFhllJWbS0-jNB8SkBeLJGfKsmayAEfWE8PC83vIAxbGmOoRMwFTc8xUDTsYRj1UqFDF3gmroETHG5wWBrGeH8Mk"
 headers = {'Authorization': "Bearer "+token}
 def getCategories():
     endpoint = "https://api.spotify.com/v1/browse/categories?offset=20&limit=20"
@@ -35,11 +35,11 @@ def saveTracks(tracks, playlistObj):
         #spotifyId, artist1, artist2, artist3, name, 
         #duration, explicit, 
         #popularity):
-        spotifyId = track['track']['id']
-        if not spotifyId:
+        if not track['track'] or not track['track']['id']:
             print("NO SPOTIFY ID FOR TRACK:")
             print(track)
         else:
+            spotifyId = track['track']['id']
             name = track['track']['name']
             duration = track['track']['duration_ms']
             explicit = track['track']['explicit']
@@ -173,14 +173,18 @@ def addPageViews():
             print("Zero views for "+str(artist.name))
             artist.views = 0
         artist.updateViews(db)
-        
+def getFeaturedPlaylists():
+    endpoint = "https://api.spotify.com/v1/browse/featured-playlists"
+    tracks = requests.get(endpoint, headers=headers).json()
+    print(tracks)
+
 #https://api.spotify.com/v1/users/spotify/playlists?offset=200&limit=20
-#populateArtists()
+#opulateArtists()
 #findArtist('0036ceq10ETP3tGK3AHNcr,003Lrmd4Hy04kSf0wZm3xm,004s3WVecP2IQy7Hw8gfoi,008wJbpZnkHRPcykr2hUye,00atTAydhxoyUusqZuaJby,00cwrbFzC9PwjFOIxTXyuU,00E0xvoM67oRJk8a5iTyEh,00eldNtAqcdLF9adKlyFZf,00G7U1s09YLtYGnwZTGru5,00gh6kmKYOu8xyorRxQm6a,00iJnnUu476m1HX16e3por,00KH6gMTJuNeeU5DCsrjcF,00me4Ke1LsvMxt5kydlMyU,00oL7zWxmWveTsKF7DnIRd,00RdKm1RuV3yg0hd79ZcPF')
-#playlistsUrl = "https://api.spotify.com/v1/users/spotify/playlists?offset=1680&limit=20"
+#playlistsUrl = "https://api.spotify.com/v1/users/spotify/playlists?offset=280&limit=20"
 #getPlaylists(playlistsUrl)
 #getFollowers("37i9dQZF1DWX3387IZmjNa")
-#getTracks()
 # 	/v1/users/{user_id}/playlists
-addPageViews()
-#makeGenres()
+#addPageViews()
+makeGenres()
+#getFeaturedPlaylists()
